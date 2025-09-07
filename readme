@@ -1,0 +1,39 @@
+Titulo: Simulador de Git
+-----------------------------------------------------------------------------------------------
+Contexto: Desarrollar un proyecto de simulacion de controlador de versiones
+que permita a un usuario realizar operaciones como agregar archivos, crear commits, ver historial de versiones y cambios entre versiones
+-----------------------------------------------------------------------------------------------
+Profesor: 
+- Christian Vasquez
+
+Integrantes:
+- Nicolas Alvarez
+- Sebastian Vera
+- Christofer Gutierrez
+-----------------------------------------------------------------------------------------------
+Componentes : 
+- Trabajo1:
+    - incs : Archivos de cabecera (.h)
+        - repository.h : Definición de Repository, init, HEAD, etc.
+        - staging.h : StagingArea, manejo de archivos agregados
+        - commit.h : Commit, historial, ID, mensajes
+        - file.h : Estructura de archivo, contenido, nombre
+
+    - src : Archivos fuente (.c)
+        - repository.c : Implementación de init y manejo de repositorio
+        - staging.h : Funciones de add, limpiar staging
+        - commit.c : Crear commit, log, checkout
+        - file.c : Manejo de archivos, lectura/escritura
+        - main.c : Procesamiento de comandos (init, add, commit...)
+
+    - Makefile:  Para compilar todo el proyecto facilmente
+    - readme: Explicacion del proyecto, cómo usarlo, estructura, integrantes
+-----------------------------------------------------------------------------------------------
+Comandos implementados:
+- ugit init
+- ugit add <nombre_archivo> -> por implementar
+-----------------------------------------------------------------------------------------------
+Entorno de desarrollo:
+- Windows 11
+- Visual studio code
+- Compilador: MSYS2 MINGW64
