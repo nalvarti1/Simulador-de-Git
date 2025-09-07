@@ -5,7 +5,7 @@ que permita a un usuario realizar operaciones como agregar archivos, crear commi
 -----------------------------------------------------------------------------------------------
 Profesor: 
 - Christian Vasquez
-
+-----------------------------------------------------------------------------------------------
 Integrantes:
 - Nicolas Alvarez
 - Sebastian Vera
@@ -32,8 +32,26 @@ Componentes :
 Comandos implementados:
 - ugit init
 - ugit add <nombre_archivo> -> por implementar
+- ...
 -----------------------------------------------------------------------------------------------
 Entorno de desarrollo:
 - Windows 11
 - Visual studio code
 - Compilador: MSYS2 MINGW64
+
+-----------------------------------------------------------------------------------------------
+Paso a paso para ejecutar en terminal de visual studio code:
+1) Abrir terminal
+2) Asegurate de tener instalado el compilador con "gcc --version"
+3) Ejecutar "gcc -Iincs -Wall -g src/main.c src/repository.c src/staging.c src/file.c src/commit.c -o ugit.exe", para compilar
+4) Ejecutar "./ugit.exe init", para inicializar la carpeta del repositorio
+-----------------------------------------------------------------------------------------------
+Paso a paso para ejecutar en el entorno de desarrollo utilizado (con MSYS2 MINGW64):
+1) Abrir la terminal de MSYS2 MINGW64
+2) Entrar en la seccion donde se tenga guardado el archivo del programa
+3) Una vez en la terminal escribir el comando "make" para ejecutar el archivo Makefile, con esto se agregaran los archivos necesarios para el buen funcionamiento
+
+4) //Realizar demas funciones a implementar del programa
+
+5) Una vez terminado el uso del programa escribir el comando "make clean", para eliminar los archivos utilizados y limpiar memoria.
+-----------------------------------------------------------------------------------------------
