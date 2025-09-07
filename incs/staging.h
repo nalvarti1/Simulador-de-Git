@@ -4,8 +4,8 @@
 #include "file.h"
 
 typedef struct {
-    File **files;   // Arreglo dinámico de archivos agregados
-    int count;      // Número de archivos agregados
+    File **files;   // Arreglo dinamico de archivos agregados
+    int count;      // Numero de archivos agregados
 } StagingArea;
 
 #endif

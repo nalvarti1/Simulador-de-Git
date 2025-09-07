@@ -1,7 +1,7 @@
 # Compilador
 CC = gcc
 
-# Flags de compilación
+# Flags de compilacion
 CFLAGS = -Iincs -Wall -g
 
 # Archivos fuente
@@ -16,11 +16,11 @@ TARGET = ugit
 # Regla principal
 all: $(TARGET)
 
-# Cómo generar el ejecutable
+# Como generar el ejecutable
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
 
-# Cómo generar archivos objeto
+# Como generar archivos objeto
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 

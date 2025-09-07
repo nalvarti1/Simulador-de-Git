@@ -3,12 +3,12 @@
 
 #include "staging.h"
 
-// Declaración adelantada (forward declaration)
+// Declaracion adelantada (forward declaration)
 typedef struct Commit Commit;
 
 typedef struct {
-    Commit *HEAD;          // Último commit
-    StagingArea *staging;  // Área de preparación
+    Commit *HEAD;          // Ultimo commit
+    StagingArea *staging;  // Area de preparacion
 } Repository;
 
 Repository* init_repository();
