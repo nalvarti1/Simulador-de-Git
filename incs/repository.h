@@ -7,10 +7,11 @@
 typedef struct Commit Commit;
 
 typedef struct {
-    Commit *HEAD;          // Ultimo commit
+    char name[50];         // Nombre del repositorio
     StagingArea *staging;  // Area de preparacion
 } Repository;
 
 Repository* init_repository();
+void free_repository(Repository *repo);
 
 #endif

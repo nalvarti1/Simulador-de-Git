@@ -1,36 +1,57 @@
 #include <stdio.h>
 #include <string.h>
 #include "../incs/repository.h"
-#include "../incs/staging.h"
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        printf("Uso: ugit <command>\n");
-        return 1;
+
+int main() {
+    Repository *repo = NULL;
+    char input[256];
+
+    printf("Welcome to uGit!\n");
+
+    while (1) {
+        printf("ugit> ");               // Prompt like a terminal
+        if (!fgets(input, sizeof(input), stdin)) break; // Read input
+        input[strcspn(input, "\n")] = 0; // Remove newline
+
+        // Split command and argument
+        char *command = strtok(input, " ");
+        char *arg = strtok(NULL, " ");
+
+        if (!command) continue;
+
+        if (strcmp(command, "exit") == 0) {
+            break; // Exit program
+        }
+        else if (strcmp(command, "init") == 0) {
+            if (!repo) repo = init_repository();
+            else printf("Repository already initialized.\n");
+        }
+        else if (strcmp(command, "add") == 0) {
+            if (!repo) {
+                printf("Error: please initialize repository first using 'init'.\n");
+                continue;
+            }
+            if (!arg) {
+                printf("You must specify a file to add.\n");
+                continue;
+            }
+            add_file_to_staging(repo->staging, arg);
+        }
+        else if (strcmp(command, "log") == 0) {
+            if (!repo) {
+                printf("Error: please initialize repository first using 'init'.\n");
+                continue;
+            }
+            list_staging_files(repo->staging);
+        }
+        else {
+            printf("Unknown command: %s\n", command);
+        }
     }
 
-    // Solo implementamos init y add por ahora
-    if (strcmp(argv[1], "init") == 0) {
-        init_repository();
-    } 
-    else if (strcmp(argv[1], "add") == 0) {
-        if (argc < 3) {
-            printf("ugit add: missing file operand\n");
-            return 1;
-        }
-        // inicializar staging area si no existe
-        static StagingArea *staging = NULL;
-        if (!staging) {
-            staging = init_staging_area();
-        }
-        add_file_to_staging(staging, argv[2]);
-        list_staging_files(staging);
-        free_staging(staging);
+    if (repo) free_repository(repo);
 
-    } 
-    else {
-        printf("ugit: unknown command '%s'\n", argv[1]);
-    }
-    
+    printf("Goodbye!\n");
     return 0;
 }

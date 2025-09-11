@@ -1,29 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "repository.h"
+#include <string.h>
+#include "../incs/repository.h"
+#include "../incs/staging.h"
 
-Repository* init_repository() {
-    Repository* repo = malloc(sizeof(Repository));
-    if (!repo) {
-        printf("Error: initialize repository\n");
-        exit(1);
-    }
+Repository *init_repository() {
+    Repository *repo = malloc(sizeof(Repository));
+    strcpy(repo->name, "ugit-repo");
+    repo->staging = init_staging_area();
 
-    repo->staging = malloc(sizeof(StagingArea));
-    if (!repo->staging) {
-        printf("Error: initialize staging area.\n");
-        free(repo);
-        exit(1);
-    }
-
-    repo->staging->count = 0;
-
-    // ✅ Inicializar todas las posiciones en NULL
-    for (int i = 0; i < MAX_FILES; i++) {
-        repo->staging->files[i] = NULL;
-    }
-
-    printf("Repository initialized succesfully\n");
+    printf("Initialized empty uGit repository: %s\n", repo->name);
     return repo;
 }
 
+void free_repository(Repository *repo) {
+    if (repo->staging) {
+        free_staging(repo->staging);
+    }
+    free(repo);
+}
