@@ -3,28 +3,27 @@
 #include "repository.h"
 
 Repository* init_repository() {
-    // Reservar memoria para el repositorio
-    Repository *repo = (Repository*) malloc(sizeof(Repository));
-    if (repo == NULL) {
-        printf("Error: no se pudo crear el repositorio.\n");
+    Repository* repo = malloc(sizeof(Repository));
+    if (!repo) {
+        printf("Error: initialize repository\n");
         exit(1);
     }
 
-    // Inicializar HEAD a NULL (no hay commits)
-    repo->HEAD = NULL;
-
-    // Crear el staging area vacio
-    repo->staging = (StagingArea*) malloc(sizeof(StagingArea));
-    if (repo->staging == NULL) {
-        printf("Error: no se pudo crear el staging area.\n");
+    repo->staging = malloc(sizeof(StagingArea));
+    if (!repo->staging) {
+        printf("Error: initialize staging area.\n");
         free(repo);
         exit(1);
     }
-    repo->staging->files = NULL;
+
     repo->staging->count = 0;
 
-    // Mensaje de confirmacion
-    printf("Initialized empty uGit repository\n");
+    // ✅ Inicializar todas las posiciones en NULL
+    for (int i = 0; i < MAX_FILES; i++) {
+        repo->staging->files[i] = NULL;
+    }
 
+    printf("Repository initialized succesfully\n");
     return repo;
 }
+
