@@ -8,6 +8,7 @@
 #include "../incs/staging.h"
 #include "../incs/repository.h"
 
+// Genera un ID de commit aleatorio de 8 caracteres
 static void generate_commit_id(char out[9]) {
     const char charset[] = "abcdefghijklmnopqrstuvwxyz0123456789";
     for (int i = 0; i < 8; i++) {
@@ -16,6 +17,7 @@ static void generate_commit_id(char out[9]) {
     out[8] = '\0';
 }
 
+// Crea un commit a partir del staging area y lo asocia al repositorio
 Commit* create_commit_from_staging(Repository *repo, const char *message) {
     if (!repo || !repo->staging) return NULL;
 
@@ -30,7 +32,7 @@ Commit* create_commit_from_staging(Repository *repo, const char *message) {
         return NULL;
     }
 
-    // Número de archivos a copiar
+    // Numero de archivos a copiar
     c->file_count = repo->staging->count;
 
     // Copia profunda: crear File* nuevos para el commit
@@ -54,7 +56,7 @@ Commit* create_commit_from_staging(Repository *repo, const char *message) {
         c->files[i] = f;
     }
 
-    // Inicializar el resto a NULL (buena práctica)
+    // Inicializar el resto a NULL 
     for (int i = c->file_count; i < MAX_FILES; i++) c->files[i] = NULL;
 
     // Copiar mensaje (safe)
@@ -69,7 +71,7 @@ Commit* create_commit_from_staging(Repository *repo, const char *message) {
     // Actualizar HEAD en repo
     repo->HEAD = c;
 
-    // Ahora es seguro liberar el staging (ya copié lo necesario)
+    // Limpiar staging area
     free_staging(repo->staging);
     repo->staging = init_staging_area();
 

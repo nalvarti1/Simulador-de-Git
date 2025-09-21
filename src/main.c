@@ -16,7 +16,7 @@ int main() {
         printf("ugit> ");
         if (!fgets(input, sizeof(input), stdin)) break;
 
-        // Quitar el salto de línea al final
+        // Quitar el salto de linea al final
         input[strcspn(input, "\n")] = 0;
 
         // Manejo de commit con -m

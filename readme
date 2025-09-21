@@ -29,10 +29,23 @@ Componentes :
     - Makefile:  Para compilar todo el proyecto facilmente
     - readme: Explicacion del proyecto, cómo usarlo, estructura, integrantes
 -----------------------------------------------------------------------------------------------
-Comandos implementados:
-- ugit init
-- ugit add <nombre_archivo> -> por implementar
-- ...
+-----------------------------------------------------------------------------------------------
+
+// Comandos implementados:
+- ugit init //Inicializa un repositorio en la carpeta actual
+- ugit add <nombre_archivo> //Agrega un archivo al area de staging
+- ugit commit -m "mensaje" //Crea un commit con los archivos en staging y el mensaje dado
+- ugit log  //Muestra el historial de commits
+
+-----------------------------------------------------------------------------------------------
+// Comandos basicos por implementar:
+- ugit checkout <commit_id> // Restaura el estado del repositorio a un commit especifico 
+- ugit status // Muestra el estado actual del repositorio y archivos
+
+//Comandos extras (opcional):
+- ugit rm <nombre_archivo> // Elimina un archivo del area de staging o del repositorio
+
+-----------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------
 Entorno de desarrollo:
 - Windows 11
