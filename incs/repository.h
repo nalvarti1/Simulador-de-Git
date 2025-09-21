@@ -3,15 +3,16 @@
 
 #include "staging.h"
 
-// Declaracion adelantada (forward declaration)
+// Forward declaration
 typedef struct Commit Commit;
 
-typedef struct {
-    char name[50];         // Nombre del repositorio
-    StagingArea *staging;  // Area de preparacion
+typedef struct Repository {
+    char name[256];
+    StagingArea *staging;
+    Commit *HEAD;
 } Repository;
 
-Repository* init_repository();
-void free_repository(Repository *repo);
+Repository* init_repository(); // Inicializa un repositorio y retorna un puntero a el
+void free_repository(Repository *repo); // Libera la memoria usada por el repositorio
 
 #endif
