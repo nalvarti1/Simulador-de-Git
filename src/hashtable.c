@@ -46,3 +46,34 @@ void hash_destroy(HashTable *table){
     }
     free(table);
 }
+
+bool hash_insert(HashTable *table, const char *key, void *value){
+    if (!table || !key)
+        return false;
+
+    unsigned int index = hash_function(key);
+
+    //Verifica si ya existe
+    HashEntry *current = table->buckets[index];
+    while(current){
+        if(strcmp(current->key, key) == 0)
+            current->value = value;
+            return true;
+    }
+    current = current->next;
+
+    //Crear nueva entrada
+    HashEntry *new_entry = malloc(sizeof(HashEntry));
+    if(!new_entry)
+        return false;
+
+    new_entry->key = strdup(key);
+    new_entry->value = value;
+    new_entry->next = table->buckets[index];
+    table->buckets[index] = new_entry;
+    table->count++;
+
+    return true;
+
+
+}
