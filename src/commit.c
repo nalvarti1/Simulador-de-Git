@@ -68,15 +68,16 @@ Commit* create_commit_from_staging(Repository *repo, const char *message) {
     c->date = time(NULL);
     c->parent = repo->HEAD;
 
-    // Actualizar HEAD en repo
+    // Actualizar HEAD en repo (para acceso secuencial)
     repo->HEAD = c;
 
-    // Agregar commit a la hashtable para búsqueda O(1)
+    // INTEGRACIÓN HASHTABLE: Agregar commit al índice para búsqueda O(1)
+    // Esto permite encontrar cualquier commit por ID sin recorrer la lista
     if (repo->commit_index) {
         hash_insert(repo->commit_index, c->id, c);
     }
 
-    // Limpiar staging area
+    // Limpiar staging area después del commit
     free_staging(repo->staging);
     repo->staging = init_staging_area();
 
@@ -109,24 +110,37 @@ void free_commit(Commit *c) {
     free(c);
 }
 
-// Busca un commit por ID usando hashtable O(1)
+/**
+ * FUNCIÓN CLAVE DE INTEGRACIÓN HASHTABLE:
+ * Busca un commit por ID usando hashtable en lugar de búsqueda lineal
+ * 
+ * ANTES (sin hashtable): O(n) - recorrer toda la lista enlazada
+ * DESPUÉS (con hashtable): O(1) - acceso directo por clave
+ */
 Commit* find_commit_by_id(Repository *repo, const char *id) {
     if (!repo || !repo->commit_index || !id) {
         return NULL;
     }
+    
+    // Búsqueda O(1) en hashtable en lugar de O(n) en lista enlazada
     return (Commit*)hash_get(repo->commit_index, id);
 }
 
-// Cambia HEAD a un commit específico
+/**
+ * BENEFICIO DEL HASHTABLE EN CHECKOUT:
+ * Permite cambiar a cualquier commit instantáneamente
+ * usando find_commit_by_id() que es O(1) gracias al hashtable
+ */
 void checkout_commit(Repository *repo, const char *commit_id) {
     if (!repo || !commit_id) {
         return;
     }
 
+    // Usar hashtable para encontrar commit en O(1) en lugar de O(n)
     Commit *target_commit = find_commit_by_id(repo, commit_id);
 
     if (target_commit) {
-        repo->HEAD = target_commit;
+        repo->HEAD = target_commit;  // Cambiar HEAD al commit encontrado
         printf("Switched to commit %s\n", target_commit->id);
     } else {
         printf("Error: commit '%s' not found in history.\n", commit_id);
