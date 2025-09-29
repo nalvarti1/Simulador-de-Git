@@ -27,11 +27,15 @@ typedef struct HashTable{
 unsigned int hash_function(const char *key);
 
 //Crear y destruir tabla hash
-HashTable *Hash_create();
+HashTable *hash_create();
 void hash_destroy(HashTable *table);
 
 //Inserta un elemento en la tabla hash
 bool hash_insert(HashTable *table, const char *key, void *value);
+void *hash_get(HashTable *table, const char *key);
+bool hash_remove(HashTable *table, const char *key);
+int hash_size(HashTable *table);
+bool hash_is_empty(HashTable *table);
 
 
 #endif

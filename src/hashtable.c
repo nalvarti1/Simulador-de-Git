@@ -19,7 +19,7 @@ unsigned int hash_function(const char *key){
     return hash;
 }
 
-HashTable *Hash_create(){
+HashTable *hash_create(){
     HashTable *table = malloc(sizeof(HashTable));
     if(!table)
         return NULL;
@@ -56,11 +56,12 @@ bool hash_insert(HashTable *table, const char *key, void *value){
     //Verifica si ya existe
     HashEntry *current = table->buckets[index];
     while(current){
-        if(strcmp(current->key, key) == 0)
+        if(strcmp(current->key, key) == 0){
             current->value = value;
             return true;
+        }
+        current = current->next;
     }
-    current = current->next;
 
     //Crear nueva entrada
     HashEntry *new_entry = malloc(sizeof(HashEntry));
@@ -74,6 +75,61 @@ bool hash_insert(HashTable *table, const char *key, void *value){
     table->count++;
 
     return true;
+}
 
+void *hash_get(HashTable *table, const char *key){
+    if (!table || !key)
+        return NULL;
+    unsigned int index = hash_function(key);
+    HashEntry *current = table->buckets[index];
 
+    while (current) {
+        if (strcmp(current->key, key) == 0) {
+            return current->value;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+
+}
+
+bool hash_remove(HashTable *table, const char *key){
+    if (!table || !key)
+       return false;
+    unsigned int index = hash_function(key);
+    HashEntry *current = table->buckets[index];
+    HashEntry *prev = NULL;
+
+    while(current){
+        if(strcmp(current->key, key)==0){
+            if(prev)
+                prev->next = current->next;
+            else    
+                table->buckets[index] = current->next;
+            
+
+            free(current->key);
+            free(current);
+            table->count--;
+            return true;
+        }
+        prev = current;
+        current = current-> next;
+    
+    }
+    return false;
+}
+
+int hash_size(HashTable *table){
+    if (table != NULL)
+        return table->count;
+    return 0;
+}
+
+bool hash_is_empty(HashTable *table) {
+    if (table != NULL) {
+        return table->count == 0;
+    } 
+    return true;
 }
