@@ -1,30 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "repository.h"
+#include <string.h>
+#include <time.h>
+#include "../incs/repository.h"
+#include "../incs/staging.h"
 
-Repository* init_repository() {
-    // Reservar memoria para el repositorio
-    Repository *repo = (Repository*) malloc(sizeof(Repository));
-    if (repo == NULL) {
-        printf("Error: no se pudo crear el repositorio.\n");
-        exit(1);
-    }
-
-    // Inicializar HEAD a NULL (no hay commits)
+Repository *init_repository() {
+    Repository *repo = malloc(sizeof(Repository));
+    if (!repo) { fprintf(stderr,"Error allocating repo\n"); exit(1); }
+    strncpy(repo->name, "ugit-repo", sizeof(repo->name)-1);
+    repo->name[sizeof(repo->name)-1] = '\0';
+    repo->staging = init_staging_area();
     repo->HEAD = NULL;
-
-    // Crear el staging area vacio
-    repo->staging = (StagingArea*) malloc(sizeof(StagingArea));
-    if (repo->staging == NULL) {
-        printf("Error: no se pudo crear el staging area.\n");
+    repo->commit_index = hash_create();
+    if (!repo->commit_index) {
+        free_staging(repo->staging);
         free(repo);
+        fprintf(stderr,"Error creating commit index\n");
         exit(1);
     }
-    repo->staging->files = NULL;
-    repo->staging->count = 0;
-
-    // Mensaje de confirmacion
-    printf("Initialized empty uGit repository\n");
-
+    srand((unsigned)time(NULL));
+    printf("Initialized empty uGit repository: %s\n", repo->name);
     return repo;
+}
+
+void free_repository(Repository *repo) {
+    if (!repo) return;
+    if (repo->staging) {
+        free_staging(repo->staging);
+    }
+    if (repo->commit_index) {
+        hash_destroy(repo->commit_index);
+    }
+    if (repo->HEAD) {
+        free_commit_history(repo->HEAD);
+    }
+    free(repo);
 }
