@@ -6,8 +6,6 @@
 #include "../incs/commit.h"
 #include "../incs/file.h"
 
-// Programador: [Tu Nombre Aquí]
-
 int main() {
     Repository *repo = NULL;
     char input[256];
@@ -15,11 +13,13 @@ int main() {
     printf("Welcome to uGit!\n");
 
     while (1) {
-        printf("ugit> ");
+         printf("\033[0;32mugit>\033[0m ");  // prompt en verde para mejor interfaz
         if (!fgets(input, sizeof(input), stdin)) break;
 
+        // Quitar el salto de linea al final
         input[strcspn(input, "\n")] = 0;
 
+        // Manejo de commit con -m
         if (strncmp(input, "commit -m ", 10) == 0) {
             if (!repo) {
                 printf("Error: please initialize repository first using 'init'.\n");
@@ -27,6 +27,8 @@ int main() {
             }
 
             char *msg_start = input + 10;
+
+            // Si empieza con comillas, eliminarlas
             if (msg_start[0] == '"') {
                 msg_start++;
                 char *end = strrchr(msg_start, '"');
@@ -35,23 +37,27 @@ int main() {
 
             Commit *c = create_commit_from_staging(repo, msg_start);
             if (!c) {
-                // El mensaje de error ya se imprime dentro de la función
+                printf("Nothing to commit.\n");
             }
             continue;
         }
 
+        // Separar comando y argumento
         char *command = strtok(input, " ");
         char *arg = strtok(NULL, " ");
 
         if (!command) continue;
 
+        // Salir del programa
         if (strcmp(command, "exit") == 0) {
             break;
         }
+        // Inicializar repositorio
         else if (strcmp(command, "init") == 0) {
             if (!repo) repo = init_repository();
             else printf("Repository already initialized.\n");
         }
+        // Agregar archivo al staging area
         else if (strcmp(command, "add") == 0) {
             if (!repo) {
                 printf("Error: please initialize repository first using 'init'.\n");
@@ -63,6 +69,8 @@ int main() {
             }
             add_file_to_staging(repo->staging, arg);
         }
+
+        // Listar commits (historial)
         else if (strcmp(command, "log") == 0 || strcmp(command, "history") == 0) {
             if (!repo) {
                 printf("Error: please initialize repository first using 'init'.\n");
@@ -74,7 +82,7 @@ int main() {
             }
             list_commits(repo->HEAD);
         }
-        // --- BLOQUE PARA CHECKOUT ---
+        // Checkout a commit específico
         else if (strcmp(command, "checkout") == 0) {
             if (!repo) {
                 printf("Error: please initialize repository first using 'init'.\n");
@@ -85,6 +93,21 @@ int main() {
                 continue;
             }
             checkout_commit(repo, arg);
+        }
+        else if (strcmp(command, "help") == 0) {
+            printf("\n\033[1;33mAvailable commands:\033[0m\n");
+            printf("  \033[0;32minit\033[0m                 -> Initialize a new repository\n");
+            printf("  \033[0;32madd <filename>\033[0m       -> Add a file to the staging area\n");
+            printf("  \033[0;32mcommit -m \"message\"\033[0m  -> Commit staged files with a message\n");
+            printf("  \033[0;32mlog\033[0m or \033[0;32mhistory\033[0m     -> Show commit history\n");
+            printf("  \033[0;32mcheckout <id>\033[0m        -> Switch to a specific commit\n");
+            printf("  \033[0;32mhelp\033[0m                 -> Show this help message\n");
+            printf("  \033[0;32mexit\033[0m                 -> Exit the program\n");
+
+            printf("\n\033[1;36mExamples:\033[0m\n");
+            printf("  \033[0;36madd main.c\033[0m\n");
+            printf("  \033[0;36mcommit -m \"Initial commit\"\033[0m\n");
+            printf("  \033[0;36mcheckout a1b2c3d4\033[0m\n\n");
         }
         else {
             printf("Unknown command: %s\n", command);

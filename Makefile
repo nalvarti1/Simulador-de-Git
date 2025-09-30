@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Iincs -Wall -g
 
 # Archivos fuente 
-SRC = src/main.c src/repository.c src/staging.c src/file.c src/commit.c
+SRC = src/main.c src/repository.c src/staging.c src/file.c src/commit.c src/hashtable.c
 
 # Archivos objeto generados a partir de los archivos fuente 
 OBJ = $(SRC:.c=.o)

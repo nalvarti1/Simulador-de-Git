@@ -55,7 +55,3 @@ Paso a paso para ejecutar en el entorno de desarrollo utilizado (con MSYS2 MINGW
 
 5) Una vez terminado el uso del programa escribir el comando "make clean", para eliminar los archivos utilizados y limpiar memoria.
 -----------------------------------------------------------------------------------------------
-
-Postdata: El proyecto esta en desarrollo, se iran agregando mas funciones y mejoras con el tiempo.
-Postdata2: Cualquier duda o sugerencia, contactar a los integrantes del proyecto.
-Postdata3: Los comantarios tan detallados son gracias al editor de codigo utilizado (Visual Studio Code).

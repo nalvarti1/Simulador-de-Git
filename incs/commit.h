@@ -20,12 +20,14 @@ typedef struct Commit {
     time_t date;    // Fecha del commit
 } Commit;
 
-Commit* find_commit_by_id(Commit *head, const char *id);
+
+Commit* find_commit_by_id(Repository *repo, const char *id);
 Commit* create_commit_from_staging(Repository *repo, const char *message); // Crea un commit a partir del staging area
 void free_commit(Commit *c); // Libera la memoria usada por el commit
-// void print_commit_summary(Commit *c); // Imprime resumen de un commit
+void print_commit_summary(Commit *c); // Imprime resumen de un commit
 void list_commits(Commit *head); // Lista todos los commits desde head
 void checkout_commit(Repository *repo, const char *commit_id);
 void free_commit_history(Commit *head);
+
 
 #endif
