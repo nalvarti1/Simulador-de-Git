@@ -13,7 +13,7 @@ int main() {
     printf("Welcome to uGit!\n");
 
     while (1) {
-        printf("ugit> ");
+         printf("\033[0;32mugit>\033[0m ");  // prompt en verde para mejor interfaz
         if (!fgets(input, sizeof(input), stdin)) break;
 
         // Quitar el salto de linea al final
@@ -81,6 +81,33 @@ int main() {
                 continue;
             }
             list_commits(repo->HEAD);
+        }
+        // Checkout a commit específico
+        else if (strcmp(command, "checkout") == 0) {
+            if (!repo) {
+                printf("Error: please initialize repository first using 'init'.\n");
+                continue;
+            }
+            if (!arg) {
+                printf("You must specify a commit id to checkout.\n");
+                continue;
+            }
+            checkout_commit(repo, arg);
+        }
+        else if (strcmp(command, "help") == 0) {
+            printf("\n\033[1;33mAvailable commands:\033[0m\n");
+            printf("  \033[0;32minit\033[0m                 -> Initialize a new repository\n");
+            printf("  \033[0;32madd <filename>\033[0m       -> Add a file to the staging area\n");
+            printf("  \033[0;32mcommit -m \"message\"\033[0m  -> Commit staged files with a message\n");
+            printf("  \033[0;32mlog\033[0m or \033[0;32mhistory\033[0m     -> Show commit history\n");
+            printf("  \033[0;32mcheckout <id>\033[0m        -> Switch to a specific commit\n");
+            printf("  \033[0;32mhelp\033[0m                 -> Show this help message\n");
+            printf("  \033[0;32mexit\033[0m                 -> Exit the program\n");
+
+            printf("\n\033[1;36mExamples:\033[0m\n");
+            printf("  \033[0;36madd main.c\033[0m\n");
+            printf("  \033[0;36mcommit -m \"Initial commit\"\033[0m\n");
+            printf("  \033[0;36mcheckout a1b2c3d4\033[0m\n\n");
         }
         else {
             printf("Unknown command: %s\n", command);
