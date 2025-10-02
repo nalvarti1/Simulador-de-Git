@@ -71,13 +71,13 @@ Commit* create_commit_from_staging(Repository *repo, const char *message) {
     // Actualizar HEAD en repo (para acceso secuencial)
     repo->HEAD = c;
 
-    // INTEGRACIÓN HASHTABLE: Agregar commit al índice para búsqueda O(1)
+    // INTEGRACIÓN HASHTABLE: Agregar commit al indice para busqueda O(1)
     // Esto permite encontrar cualquier commit por ID sin recorrer la lista
     if (repo->commit_index) {
         hash_insert(repo->commit_index, c->id, c);
     }
 
-    // Limpiar staging area después del commit
+    // Limpiar staging area despues del commit
     free_staging(repo->staging);
     repo->staging = init_staging_area();
 
@@ -111,8 +111,8 @@ void free_commit(Commit *c) {
 }
 
 /**
- * FUNCIÓN CLAVE DE INTEGRACIÓN HASHTABLE:
- * Busca un commit por ID usando hashtable en lugar de búsqueda lineal
+ * FUNCION CLAVE DE INTEGRACIÓN HASHTABLE:
+ * Busca un commit por ID usando hashtable en lugar de busqueda lineal
  * 
  * ANTES (sin hashtable): O(n) - recorrer toda la lista enlazada
  * DESPUÉS (con hashtable): O(1) - acceso directo por clave
@@ -122,13 +122,13 @@ Commit* find_commit_by_id(Repository *repo, const char *id) {
         return NULL;
     }
     
-    // Búsqueda O(1) en hashtable en lugar de O(n) en lista enlazada
+    // Busqueda O(1) en hashtable en lugar de O(n) en lista enlazada
     return (Commit*)hash_get(repo->commit_index, id);
 }
 
 /**
  * BENEFICIO DEL HASHTABLE EN CHECKOUT:
- * Permite cambiar a cualquier commit instantáneamente
+ * Permite cambiar a cualquier commit instantaneamente
  * usando find_commit_by_id() que es O(1) gracias al hashtable
  */
 void checkout_commit(Repository *repo, const char *commit_id) {

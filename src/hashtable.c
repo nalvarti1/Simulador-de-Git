@@ -3,22 +3,22 @@
 #include <string.h>
 #include "../incs/hashtable.h"
 
-//Función hash polinomial para distribución uniforme de claves
+//Funcion hash polinomial para distribucion uniforme de claves
 //Convierte string de commit ID a índice de tabla (0 a HASH_TABLE_SIZE-1)
 unsigned int hash_function(const char *key){
     unsigned int hash = 0;           // Valor hash acumulado
-    unsigned int p = 31;             // Base polinomial (número primo)
+    unsigned int p = 31;             // Base polinomial (numero primo)
     unsigned int p_pow = 1;          // Potencia actual de la base
 
-    // Procesar cada carácter del string
+    // Procesar cada caracter del string
     while(*key){ // Mientras no sea '\0'
-        // Fórmula: hash = (a[0] + a[1]*p + a[2]*p^2 + ... + a[n]*p^n) mod HASH_TABLE_SIZE
+        // Formula: hash = (a[0] + a[1]*p + a[2]*p^2 + ... + a[n]*p^n) mod HASH_TABLE_SIZE
         hash = (hash + ((unsigned char)(*key) * p_pow)) % HASH_TABLE_SIZE;
         p_pow = (p_pow * p) % HASH_TABLE_SIZE;  // Siguiente potencia
         key++;
     }
 
-    // Retorna índice final (0 a HASH_TABLE_SIZE-1)
+    // Retorna indice final (0 a HASH_TABLE_SIZE-1)
     return hash;
 }
 
@@ -29,7 +29,7 @@ HashTable *hash_create(){
     if(!table)
         return NULL;
     
-    // Inicializar todos los buckets como listas vacías
+    // Inicializar todos los buckets como listas vacias
     for(int i = 0; i < HASH_TABLE_SIZE; i++)
         table->buckets[i] = NULL;
     

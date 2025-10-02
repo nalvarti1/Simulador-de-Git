@@ -15,10 +15,10 @@ Repository *init_repository() {
     strncpy(repo->name, "ugit-repo", sizeof(repo->name)-1);
     repo->name[sizeof(repo->name)-1] = '\0';
     
-    repo->staging = init_staging_area();        // Inicializar área de staging
+    repo->staging = init_staging_area();        // Inicializar area de staging
     repo->HEAD = NULL;                          // Sin commits inicialmente
     
-    // INTEGRACIÓN HASHTABLE: Crear índice de commits para búsqueda O(1)
+    // INTEGRACION HASHTABLE: Crear indice de commits para busqueda O(1)
     repo->commit_index = hash_create();
     if (!repo->commit_index) {
         free_staging(repo->staging);
@@ -31,7 +31,7 @@ Repository *init_repository() {
     if (!repo) { fprintf(stderr,"Error allocating repo\n"); exit(1); }
     strncpy(repo->name, "ugit-repo", sizeof(repo->name)-1);
     repo->name[sizeof(repo->name)-1] = '\0';
-    repo->staging = init_staging_area(); // or init_staging() según tu nombre
+    repo->staging = init_staging_area();
     repo->HEAD = NULL;
     srand((unsigned)time(NULL));
     printf("Initialized empty uGit repository: %s\n", repo->name);
@@ -40,12 +40,12 @@ Repository *init_repository() {
 void free_repository(Repository *repo) {
     if (!repo) return;
     
-    // Liberar área de staging
+    // Liberar area de staging
     if (repo->staging) {
         free_staging(repo->staging);
     }
     
-    // Liberar índice de commits
+    // Liberar indice de commits
     if (repo->commit_index) {
         hash_destroy(repo->commit_index);
     }
@@ -56,7 +56,7 @@ void free_repository(Repository *repo) {
     }
     
     if (repo->HEAD) {
-        free_commit_history(repo->HEAD); // ✅ ¡Llama aquí a la nueva función!
+        free_commit_history(repo->HEAD); // Liberar commits
     }
     free(repo);
 }

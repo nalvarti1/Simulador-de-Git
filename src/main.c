@@ -82,7 +82,7 @@ int main() {
             }
             list_commits(repo->HEAD);
         }
-        // Checkout a commit específico
+        // Checkout a commit especifico
         else if (strcmp(command, "checkout") == 0) {
             if (!repo) {
                 printf("Error: please initialize repository first using 'init'.\n");
